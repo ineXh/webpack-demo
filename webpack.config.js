@@ -3,22 +3,24 @@ const webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
-  entry: './app/index.js',
+  entry: './app/entry.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    //library: 'myClassName',
   },
 
 	debug: true,
 	devtool: "#eval-source-map",
 	module: {
-	/*loaders: [
-	  {
-	    test: /\.jsx?$/,
-	    exclude: /(node_modules|bower_components)/,
-	    loader: 'babel'
-	  }
-	]*/
+  	loaders: [
+     { test: /\.css$/, loader: "style!css" },
+  	  /*{
+  	    test: /\.jsx?$/,
+  	    exclude: /(node_modules|bower_components)/,
+  	    loader: 'babel'
+  	  }*/
+  	]
 	},
 
 
@@ -27,6 +29,8 @@ module.exports = {
     },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
+            sourceMap: false,
+            mangle: false,
             compress: {
                 warnings: false,
             },
