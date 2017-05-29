@@ -1,7 +1,8 @@
-// for dev
+// for production
 const webpack = require('webpack');
 
 var path = require('path');
+var CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
   /*entry: {
@@ -13,12 +14,12 @@ module.exports = {
   entry: './app/entry.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'app'),
+    path: path.resolve(__dirname, 'dist'),
     //library: 'myClassName',
   },
 
 	debug: true,
-	devtool: "#eval-source-map",
+	devtool: "#cheap-module-source-map",
 	module: {
   	loaders: [
      { test: /\.css$/, loader: "style!css" },
@@ -40,6 +41,21 @@ module.exports = {
         modulesDirectories: ["node_modules",]
     },
     plugins: [
+        new webpack.DefinePlugin({
+          'process.env': {
+            'NODE_ENV': JSON.stringify('production')
+          }
+        }),
+        //new webpack.optimize.CommonsChunkPlugin('common'),
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.AggressiveMergingPlugin(),
+        new CompressionPlugin({
+              asset: "[path].gz[query]",
+              algorithm: "gzip",
+              test: /\.js$|\.css$|\.html$/,
+              threshold: 10240,
+              minRatio: 0.8
+        }),
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: false,
             mangle: false,
