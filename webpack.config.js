@@ -3,6 +3,12 @@ const webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
+  /*entry: {
+    main: [
+      './app/entry.js',
+      './app/Global.js'
+    ]
+  },*///'./app/entry.js',
   entry: './app/entry.js',
   output: {
     filename: 'bundle.js',
@@ -15,6 +21,11 @@ module.exports = {
 	module: {
   	loaders: [
      { test: /\.css$/, loader: "style!css" },
+     {
+      test: /\.js$/,
+      include: path.join(__dirname, 'includes'),
+      loader: 'script'
+    }
   	  /*{
   	    test: /\.jsx?$/,
   	    exclude: /(node_modules|bower_components)/,
