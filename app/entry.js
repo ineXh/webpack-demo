@@ -37,7 +37,8 @@ Sayhello();
 say();
 
 writeParagraph(dog);
-console.log(Global)
+
+writeParagraph('Script Loader Global.js: ' + Name + ', ' + Name2);
 //utils.meow();
 //writeParagraph("My name is "  + Name);
 
