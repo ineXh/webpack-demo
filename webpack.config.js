@@ -13,7 +13,7 @@ module.exports = {
   entry: './app/entry.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'app'),
+    path: path.resolve(__dirname, 'dev'),
     //library: 'myClassName',
   },
 
@@ -21,12 +21,39 @@ module.exports = {
 	devtool: "#eval-source-map",
 	module: {
   	loaders: [
-     { test: /\.css$/, loader: "style!css" },
-     {
+    // cssloader
+    { test: /\.css$/, loader: "style!css" },
+
+    {
       test: /\.js$/,
       include: path.join(__dirname, 'includes'),
       loader: 'script'
-    }
+    },
+    // image loader, file loader
+    {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loaders: ['file-loader?context=src/images&name=images/[path][name].[ext]', {
+          loader: 'image-webpack-loader',
+          query: {
+            mozjpeg: {
+              progressive: true,
+            },
+            gifsicle: {
+              interlaced: false,
+            },
+            optipng: {
+              optimizationLevel: 4,
+            },
+            pngquant: {
+              quality: '75-90',
+              speed: 3,
+            },
+          },
+        }],
+        exclude: /node_modules/,
+        include: __dirname,
+      },
+    
   	  /*{
   	    test: /\.jsx?$/,
   	    exclude: /(node_modules|bower_components)/,
